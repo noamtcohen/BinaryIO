@@ -8,15 +8,25 @@ var bio = require("./bio.js").Bio;
 var server = new bio(9009);
 
 server.on("connection", function (client) {
-    client.on("Hi", function (meta, buf, cb) {
-        console.log(meta);
-        console.log(buf);
-        cb({Hello: "Friend"});
-    });
-    client.on("Whats Up?", function (meta, buf, cb) {
-        console.log(meta);
-        console.log(buf);
-        cb({Hi: "Hello to you too!"});
+    client.on("stream",function(stream){
+
+        stream.on("Hi", function (meta, buf, cb) {
+            console.log(meta);
+            cb({Hello: "Friend",x:meta.x+1},function(args,bioStream){
+                console.log(args);
+                var int8 = new Int8Array([1,2,3,10]);
+                bioStream.call("client?",{z:"foo"},int8,function(args){
+                    console.log(args);
+                });
+            });
+        });
+
+        stream.on("Whats Up?", function (meta, buf, cb) {
+            console.log(meta);
+            cb({Hi: "Hello to you too!"},function(args,bioStream){
+
+            });
+        });
     });
 });
 ```
@@ -33,11 +43,15 @@ var bio = Bio("ws://localhost:9009", function () {
     f64[6] = 100;
 
     var stream = bio.stream({something: 123});
-    stream.call("Hi",{x: 1},uint8,function (args,bstream) {
+    stream.call("Hi",{m:"hi",x: 1},uint8,function (args,bioS) {
         console.log(args);
+        bioS.on("client?",function(meta,data,cb){
+            console.log(meta);
+            cb({what:"cb from client",x:args.x+1});
+        });
     });
 
-    stream.call("Whats Up?",{y: 2},f64,function (args,bstream) {
+    stream.call("Whats Up?",{foo:"bar"},f64,function (args,bioS) {
         console.log(args);
     });
 });

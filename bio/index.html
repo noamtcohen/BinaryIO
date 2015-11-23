@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Binary IO</title>
     <script src="binary.js"></script>
-    <script src="binary.io.js"></script>
+    <script src="bio.client.js"></script>
+    <script src="biolib.js"></script>
     <script>
         var bio = Bio("ws://localhost:9009", function () {
             var ab = new ArrayBuffer(2);
@@ -17,11 +18,15 @@
             f64[6] = 100;
 
             var stream = bio.stream({something: 123});
-            stream.call("Hi",{x: 1},uint8,function (args,bstream) {
+            stream.call("Hi",{m:"hi",x: 1},uint8,function (args,bioS) {
                 console.log(args);
+                bioS.on("client?",function(meta,data,cb){
+                    console.log(meta);
+                    cb({what:"cb from client",x:args.x+1});
+                });
             });
 
-            stream.call("Whats Up?",{y: 2},f64,function (args,bstream) {
+            stream.call("Whats Up?",{foo:"bar"},f64,function (args,bioS) {
                 console.log(args);
             });
         });
