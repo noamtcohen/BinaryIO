@@ -28,9 +28,9 @@ var bio = Bio("ws://localhost:9009", function () {
       uint8[0] = 10;
       uint8[1] = 11;
 
-      var int32 = new Float64Array(7);
-      int32[0] = 12;
-      int32[6] = 100;
+      var f64 = new Float64Array(7);
+      f64[0] = 12;
+      f64[6] = 100;
 
       var stream = bio.stream({something: 123});
       stream.call({
@@ -43,7 +43,7 @@ var bio = Bio("ws://localhost:9009", function () {
 
       stream.call({
           event: "Whats Up?",
-          data: int32,
+          data: f64,
           meta: {meta: 2}
       }, function (args) {
           console.log(args);
