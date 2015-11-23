@@ -1,0 +1,23 @@
+{
+  "name": "binaryio",
+  "version": "1.0.0",
+  "description": "BinaryJS with callbacks",
+  "main": "server.io.js",
+  "dependencies": {
+    "binaryjs": "^0.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noamtcohen/BinaryIO.git"
+  },
+  "author": "noamtcohen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/noamtcohen/BinaryIO/issues"
+  },
+  "homepage": "https://github.com/noamtcohen/BinaryIO#readme"
+}
