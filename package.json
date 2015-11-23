@@ -2,7 +2,7 @@
   "name": "binaryio",
   "version": "1.0.0",
   "description": "BinaryJS with callbacks",
-  "main": "server.io.js",
+  "main": "server.js",
   "dependencies": {
     "binaryjs": "^0.2.1"
   },
