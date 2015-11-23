@@ -57,5 +57,5 @@ var b = new Blob([]);
 Bio.toTypeArray(b,Uint8Array,function(array){
 });
 ```
-type can be and typed array (Int8Array
-Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array).
+type can be and typed array (`Int8Array,
+Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array`).
