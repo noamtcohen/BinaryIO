@@ -62,7 +62,7 @@ function Bio(url,onOpen) {
         stream: function (meta) {
             var bStream = client.createStream(meta);
             return {
-                call: function (event,data,meta, cb) {
+                call: function (event, meta, data, cb) {
 
                     var id = getNextReqId();
 

@@ -33,11 +33,11 @@ var bio = Bio("ws://localhost:9009", function () {
     f64[6] = 100;
 
     var stream = bio.stream({something: 123});
-    stream.call("Hi",uint8,{x: 1},function (args) {
+    stream.call("Hi",{x: 1},uint8,function (args) {
         console.log(args);
     });
 
-    stream.call("Whats Up?",f64,{y: 2}, function (args) {
+    stream.call("Whats Up?",{y: 2},f64,function (args) {
         console.log(args);
     });
 });

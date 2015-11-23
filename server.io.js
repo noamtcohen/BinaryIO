@@ -15,6 +15,6 @@ server.on("connection", function (client) {
     client.on("Whats Up?", function (meta, buf, cb) {
         console.log(meta);
         console.log(buf.length);
-        cb({Hi: "Hello to you to!"});
+        cb({Hi: "Hello to you too!"});
     });
 });
