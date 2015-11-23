@@ -45,12 +45,17 @@ function Bio(url,onOpen) {
     }
 
     function getNextReqId(){
-        var cnt = 0;
-        for(var i in Bio._reqIds)
-            if (Bio._reqIds.hasOwnProperty(i))
-                cnt+=1;
+        var next = 0;
 
-        return cnt;
+        for(var i in Bio._reqIds) {
+            if (Bio._reqIds.hasOwnProperty(i)) {
+                var id = parseInt(i);
+                if (next <= id)
+                    next = id + 1;
+            }
+        }
+
+        return next;
     }
 
     return {
