@@ -54,6 +54,8 @@ var bio = Bio("ws://localhost:9009", function () {
 To conver your Blob or ArrayBuffer before sending use:
 ```javascript
 var b = new Blob([]);
-Bio.toTypeArray(b,Int32Array,function(array){
+Bio.toTypeArray(b,Uint8Array,function(array){
 });
 ```
+type can be and typed array (Int8Array
+Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array).
