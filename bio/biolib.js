@@ -35,10 +35,12 @@ function BioPacket(stream,onPacket){
 }
 
 function BioStream(bStream,meta){
+    BasicEmitter(this,BioStream);
+
     var that = this;
     this.packet = new BioPacket(bStream,function(head,data){
         var id=head.id;
-        that._emit(head.e,head.m,data,function(arg,cb){
+        that.trigger(head.e,head.m,data,function(arg, cb){
             that.call("_callback",{id:id,data:arg,e:head.e},new Uint8Array(0),cb);
         });
     });
@@ -101,15 +103,7 @@ function BioStream(bStream,meta){
         });
     }
 
-    var _listeners = {};
-    this.on = function(e,cb){
-        if(!_listeners[e])
-            _listeners[e] = [];
-        _listeners[e].push({fun:cb});
-    }
-
     this.on("_callback",function(meta,data,cb){
-
         if(typeof meta.id === "undefined")
             return;
 
@@ -119,24 +113,48 @@ function BioStream(bStream,meta){
 
         cb({fin:meta.e});
     });
+}
 
-    this._emit=function(){
+function BasicEmitter(target,type){
+    if (target.constructor != type)
+        throw "Please constract "+type.name+" with new operator.";
+
+    target._listeners = {};
+    target.on = function(e,cb){
+        target.trigger("newListener",e,cb);
+
+        if(!target._listeners[e])
+            target._listeners[e] = [];
+        target._listeners[e].push({fun:cb});
+    }
+    
+    target.trigger=function(){
         var args = toArray(arguments);
 
         var e = args[0];
 
-        if(_listeners [e]) {
+        if(target._listeners [e]) {
             var apply = args.slice(1);
-            for (var i = 0; i < _listeners[e].length;i++){
-                _listeners[e][i].fun.apply(null,apply);
+            for (var i = 0; i < target._listeners[e].length;i++){
+                target._listeners[e][i].fun.apply(null,apply);
             }
         }
+    }
+
+    target.listenerCount = function(e){
+        if(!target._listeners [e])
+            return 0;
+
+        return target._listeners[e].length;
     }
 
     function toArray(obj){
         var rtn = [];
         for(var key in obj)
         {
+            if (!obj.hasOwnProperty(key))
+                continue;
+
             var index = parseInt(key);
             rtn[index] = obj[key];
         }
