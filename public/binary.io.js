@@ -57,15 +57,15 @@ function Bio(url,onOpen) {
         stream: function (meta) {
             var bStream = client.createStream(meta);
             return {
-                call: function (args, cb) {
+                call: function (event,data,meta, cb) {
 
                     var id = getNextReqId();
 
                     Bio._reqIds[id] = cb;
 
-                    var head ={e: args.event, m: args.meta, id: id};
+                    var head ={e: event, m: meta, id: id};
 
-                    pack(args.data, head, function (buf) {
+                    pack(data, head, function (buf) {
                         bStream.write(buf);
                     });
                 }
