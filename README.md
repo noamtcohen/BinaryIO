@@ -10,13 +10,13 @@ var server = new bio(9009);
 server.on("connection", function (client) {
     client.on("Hi", function (meta, buf, cb) {
         console.log(meta);
-        console.log(buf.length);
+        console.log(buf);
         cb({Hello: "Friend"});
     });
     client.on("Whats Up?", function (meta, buf, cb) {
         console.log(meta);
-        console.log(buf.length);
-        cb({Hi: "Hello to you to!"});
+        console.log(buf);
+        cb({Hi: "Hello to you too!"});
     });
 });
 ```
@@ -33,11 +33,11 @@ var bio = Bio("ws://localhost:9009", function () {
     f64[6] = 100;
 
     var stream = bio.stream({something: 123});
-    stream.call("Hi",{x: 1},uint8,function (args) {
+    stream.call("Hi",{x: 1},uint8,function (args,bstream) {
         console.log(args);
     });
 
-    stream.call("Whats Up?",{y: 2},f64,function (args) {
+    stream.call("Whats Up?",{y: 2},f64,function (args,bstream) {
         console.log(args);
     });
 });

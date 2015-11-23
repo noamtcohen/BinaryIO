@@ -41,16 +41,16 @@ function BioConnection(client){
             }
 
             if (!head && tmp.length >= headerLen) {
-                var header = new Buffer(headerLen);
+                var header = new Array(headerLen);
                 for (var i = 0; i < headerLen; i++)
                     header[i] = data[i + 1];
 
-                head = JSON.parse(header.toString());
+                head = JSON.parse(String.fromCharCode.apply(this,header));
             }
 
             if (head && tmp.length > (headerLen + head.l)) {
                 var id = head.id;
-                _this.emit(head.e,head.m,new Buffer(tmp.slice(headerLen+1,headerLen + head.l+1)),function(args){
+                _this.emit(head.e,head.m,tmp.slice(headerLen+1,headerLen + head.l+1),function(args){
                     client.createStream({id: id, data: args});
                 });
                 tmp = null;
