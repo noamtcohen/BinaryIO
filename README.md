@@ -50,3 +50,10 @@ var bio = Bio("ws://localhost:9009", function () {
       });
 });
 ```
+
+To conver your Blob or ArrayBuffer before sending use:
+```javascript
+var b = new Blob([]);
+Bio.toTypeArray(b,Int32Array,function(array){
+});
+```
