@@ -22,33 +22,33 @@ server.on("connection", function (client) {
 ```
 Client:
 ```javascript
-var bio = Bio("ws://localhost:9009", function () {
-      var ab = new ArrayBuffer(2);
-      var uint8 = new Uint8Array(ab);
-      uint8[0] = 10;
-      uint8[1] = 11;
+        var bio = Bio("ws://localhost:9009", function () {
+            var ab = new ArrayBuffer(2);
+            var uint8 = new Uint8Array(ab);
+            uint8[0] = 10;
+            uint8[1] = 11;
 
-      var f64 = new Float64Array(7);
-      f64[0] = 12;
-      f64[6] = 100;
+            var f64 = new Float64Array(7);
+            f64[0] = 12;
+            f64[6] = 100;
 
-      var stream = bio.stream({something: 123});
-      stream.call({
-          event: "Hi",
-          data: uint8,
-          meta: {meta: 1}
-      }, function (args) {
-          console.log(args);
-      });
+            var stream = bio.stream({something: 123});
+            stream.call({
+                event: "Hi",
+                data: uint8,
+                meta: {x: 1}
+            }, function (args) {
+                console.log(args);
+            });
 
-      stream.call({
-          event: "Whats Up?",
-          data: f64,
-          meta: {meta: 2}
-      }, function (args) {
-          console.log(args);
-      });
-});
+            stream.call({
+                event: "Whats Up?",
+                data: f64,
+                meta: {y: 2}
+            }, function (args) {
+                console.log(args);
+            });
+        });
 ```
 
 To conver your Blob or ArrayBuffer before sending use:

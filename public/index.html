@@ -7,33 +7,31 @@
     <script src="binary.io.js"></script>
     <script>
         var bio = Bio("ws://localhost:9009", function () {
-
             var ab = new ArrayBuffer(2);
             var uint8 = new Uint8Array(ab);
             uint8[0] = 10;
             uint8[1] = 11;
 
-            var int32 = new Float64Array(7);
-            int32[0] = 12;
-            int32[6] = 100;
+            var f64 = new Float64Array(7);
+            f64[0] = 12;
+            f64[6] = 100;
 
             var stream = bio.stream({something: 123});
             stream.call({
                 event: "Hi",
                 data: uint8,
-                meta: {meta: 1}
+                meta: {x: 1}
             }, function (args) {
                 console.log(args);
             });
 
             stream.call({
                 event: "Whats Up?",
-                data: int32,
-                meta: {meta: 2}
+                data: f64,
+                meta: {y: 2}
             }, function (args) {
                 console.log(args);
             });
-
         });
     </script>
 </head>
