@@ -33,11 +33,11 @@ function BioConnection(client){
         var head;
         stream.on("data", function (data) {
             if (!tmp) {
-                tmp = new Buffer(data);
+                tmp = data;
                 headerLen = tmp[0];
             }
             else {
-                tmp = Buffer.concat([tmp, data]);
+                tmp = tmp.concat(data);
             }
 
             if (!head && tmp.length >= headerLen) {
@@ -50,7 +50,7 @@ function BioConnection(client){
 
             if (head && tmp.length > (headerLen + head.l)) {
                 var id = head.id;
-                _this.emit(head.e,head.m,tmp.slice(headerLen+1,headerLen + head.l+1),function(args){
+                _this.emit(head.e,head.m,new Buffer(tmp.slice(headerLen+1,headerLen + head.l+1)),function(args){
                     client.createStream({id: id, data: args});
                 });
                 tmp = null;
