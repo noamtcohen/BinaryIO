@@ -2,7 +2,6 @@
  * Created by noamc on 11/23/15.
  */
 
-
 var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
 
 (function(exports){
@@ -14,7 +13,9 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
         BasicEmitter(this,BioStream);
 
         var that = this;
-        this.packet = new BioPacket(bStream,function(head,data){
+
+        var bioPack = new BioPacket(bStream);
+        bioPack.on("packet",function(head,data){
             var id=head.id;
             that.trigger(head.e,head.m,data,function(arg, cb){
                 that.call("@callback?",{id:id,data:arg,e:head.e},new Uint8Array(0),cb);
@@ -24,7 +25,7 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
         this.call = function (event, meta, data, cb) {
             function pack(data, head, cb) {
                 if(!data.buffer && !(data instanceof Array))
-                    throw "Please send TypedArray or Array. Use: `Bio.toTypeArray(data,type,cb)` to convert your ArrayBuffer or Blob.";
+                    throw "Please send TypedArray or Array";
 
                 var arrToSend =(data instanceof Array)?data:Array.prototype.slice.call(data);
 
@@ -84,10 +85,13 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
     }
 
     function BioPacket(stream,onPacket){
+        BasicEmitter(this,BioPacket);
+
         var tmp;
         var headerLen;
         var head;
 
+        var that = this;
         stream.on("data", function (data) {
             if (!tmp) {
                 tmp = data;
@@ -106,7 +110,7 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
             }
 
             if (head && tmp.length > (headerLen + head.l)) {
-                onPacket(head,tmp.slice(headerLen+1,headerLen + head.l+1));
+                that.trigger("packet",head,tmp.slice(headerLen+1,headerLen + head.l+1));
                 tmp = null;
                 head = null;
                 headerLen=0;
