@@ -4,7 +4,7 @@
 
 const util = require('util');
 const EventEmitter = require('events');
-
+var BioStream = require("./biolib.js").BioStream;
 var binaryServer = require('binaryjs').BinaryServer;
 
 exports.Bio = Bio;
@@ -33,6 +33,3 @@ function BioConnection(client){
 
 util.inherits(Bio, EventEmitter);
 util.inherits(BioConnection, EventEmitter);
-
-var fs = require("fs");
-eval(fs.readFileSync("./bio/biolib.js").toString());

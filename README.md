@@ -1,6 +1,33 @@
 # BinaryIO
 BinaryJS with callbacks 
 
+Client:
+```javascript
+var bio = Bio("ws://localhost:9009", function () {
+    var ab = new ArrayBuffer(2);
+    var uint8 = new Uint8Array(ab);
+    uint8[0] = 10;
+    uint8[1] = 11;
+
+    var f64 = new Float64Array(7);
+    f64[0] = 12;
+    f64[6] = 100;
+
+    var stream = bio.stream({something: 123});
+    stream.call("Hi",{m:"hi",x: 1},uint8,function (args,bioS) {
+        console.log(args);
+        bioS.on("client?",function(meta,data,cb){
+            console.log(meta);
+            cb({what:"cb from client",x:args.x+1});
+        });
+    });
+
+    stream.call("Whats Up?",{foo:"bar"},f64,function (args,bioS) {
+        console.log(args);
+    });
+});
+```
+
 Server:
 ```javascript
 var bio = require("./bio.js").Bio;
@@ -30,32 +57,6 @@ server.on("connection", function (client) {
     });
 });
 ```
-Client:
-```javascript
-var bio = Bio("ws://localhost:9009", function () {
-    var ab = new ArrayBuffer(2);
-    var uint8 = new Uint8Array(ab);
-    uint8[0] = 10;
-    uint8[1] = 11;
-
-    var f64 = new Float64Array(7);
-    f64[0] = 12;
-    f64[6] = 100;
-
-    var stream = bio.stream({something: 123});
-    stream.call("Hi",{m:"hi",x: 1},uint8,function (args,bioS) {
-        console.log(args);
-        bioS.on("client?",function(meta,data,cb){
-            console.log(meta);
-            cb({what:"cb from client",x:args.x+1});
-        });
-    });
-
-    stream.call("Whats Up?",{foo:"bar"},f64,function (args,bioS) {
-        console.log(args);
-    });
-});
-```
 
 To conver your Blob or ArrayBuffer before sending use:
 ```javascript
@@ -65,3 +66,6 @@ Bio.toTypeArray(b,Uint8Array,function(array){
 ```
 type can be and typed array (`Int8Array,
 Uint8Array, Uint8ClampedArray, Int16Array, Uint16Array, Int32Array, Uint32Array, Float32Array, Float64Array`).
+
+
+Event names that start with "@" and end with "?" (like: "@callback?") are reserved.

@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Binary IO</title>
     <script src="binary.js"></script>
-    <script src="bio.client.js"></script>
+    <script src="browser-node.js"></script>
+    <script src="basic-emitter.js"></script>
+    <script src="bioclient.js"></script>
     <script src="biolib.js"></script>
     <script>
         var bio = Bio("ws://localhost:9009", function () {
@@ -22,6 +24,7 @@
                 console.log(args);
                 bioS.on("client?",function(meta,data,cb){
                     console.log(meta);
+                    console.log(data);
                     cb({what:"cb from client",x:args.x+1});
                 });
             });
