@@ -70,16 +70,12 @@
     </div>
 
     <script>
-
-        (function(){
-
-            window.log = function (message) {
-                console.log(message);
-                var line =$("<div class='line'>" + ((typeof message == 'object')? JSON.stringify(message):message) + "</div>");
-                hljs.highlightBlock(line[0]);
-                $("#log").append(line);
-            }
-        })();
+        window.log = function (message) {
+            console.log(message);
+            var line =$("<div class='line'>" + ((typeof message == 'object')? JSON.stringify(message):message) + "</div>");
+            hljs.highlightBlock(line[0]);
+            $("#log").append(line);
+        }
     </script>
 </body>
 </html>
