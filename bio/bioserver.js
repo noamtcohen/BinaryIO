@@ -26,7 +26,7 @@ function BioConnection(client){
 
     var _this = this;
     client.on('stream', function (stream, meta) {
-        var bioS = new BioStream(stream,meta);
+        var bioS = new BioStream(stream,{packetSize:10});
         _this.emit("stream",bioS);
     });
 }

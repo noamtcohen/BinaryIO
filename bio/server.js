@@ -13,7 +13,6 @@ server.on("connection", function (client) {
             console.log(meta);
             console.log(buf);
             cb({Hello: "Friend",x:meta.x+1},function(args,bioStream){
-                console.log(args);
                 var int8 = new Int8Array([1,2,3,10]);
                 bioStream.call("client?",{z:"foo"},int8,function(args){
                     console.log(args);
@@ -22,9 +21,14 @@ server.on("connection", function (client) {
         });
 
         stream.on("Whats Up?", function (meta, buf, cb) {
-            console.log(meta);
             console.log(buf);
             cb({Hi: "Hello to you too!"},function(args,bioStream){
+
+            });
+        });
+        stream.on("string array", function (meta, buf, cb) {
+            console.log(buf);
+            cb({array: "got it"},function(args,bioStream){
 
             });
         });

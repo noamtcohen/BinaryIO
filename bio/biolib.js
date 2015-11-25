@@ -9,7 +9,7 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
 
     exports.BioStream = BioStream;
 
-    function BioStream(bStream,meta){
+    function BioStream(bStream,opt){
         BasicEmitter(this,BioStream);
 
         var that = this;
@@ -68,7 +68,10 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
             }
 
             pack(data, head, function (buf) {
-                bStream.write(buf);
+                for(var i=0;i<buf.length;i+=opt.packetSize) {
+                    var sub = buf.slice(i,i+opt.packetSize);
+                    bStream.write(sub);
+                }
             });
         }
 
@@ -101,12 +104,13 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
                 tmp = tmp.concat(data);
             }
 
-            if (!head && tmp.length >= headerLen) {
+            if (!head && tmp.length > headerLen) {
                 var header = new Array(headerLen);
                 for (var i = 0; i < headerLen; i++)
-                    header[i] = data[i + 1];
+                    header[i] = tmp[i + 1];
 
-                head = JSON.parse(String.fromCharCode.apply(this,header));
+                var json=String.fromCharCode.apply(this,header);
+                head = JSON.parse(json);
             }
 
             if (head && tmp.length > (headerLen + head.l)) {

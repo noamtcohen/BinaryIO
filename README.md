@@ -14,10 +14,12 @@ var bio = Bio("ws://localhost:9009", function () {
     f64[6] = 100;
 
     var stream = bio.stream({something: 123});
+
     stream.call("Hi",{m:"hi",x: 1},uint8,function (args,bioS) {
         console.log(args);
         bioS.on("client?",function(meta,data,cb){
             console.log(meta);
+            console.log(data);
             cb({what:"cb from client",x:args.x+1});
         });
     });
@@ -25,12 +27,16 @@ var bio = Bio("ws://localhost:9009", function () {
     stream.call("Whats Up?",{foo:"bar"},f64,function (args,bioS) {
         console.log(args);
     });
+
+    stream.call("string array",{},[1.2,2.10,3.12,"a","b","c"],function (args,bioS) {
+        console.log(args);
+    });
 });
 ```
 
 Server:
 ```javascript
-var bio = require("./bio.js").Bio;
+var bio = require("./bioserver.js").Bio;
 
 var server = new bio(9009);
 
@@ -39,8 +45,8 @@ server.on("connection", function (client) {
 
         stream.on("Hi", function (meta, buf, cb) {
             console.log(meta);
+            console.log(buf);
             cb({Hello: "Friend",x:meta.x+1},function(args,bioStream){
-                console.log(args);
                 var int8 = new Int8Array([1,2,3,10]);
                 bioStream.call("client?",{z:"foo"},int8,function(args){
                     console.log(args);
@@ -49,8 +55,14 @@ server.on("connection", function (client) {
         });
 
         stream.on("Whats Up?", function (meta, buf, cb) {
-            console.log(meta);
+            console.log(buf);
             cb({Hi: "Hello to you too!"},function(args,bioStream){
+
+            });
+        });
+        stream.on("string array", function (meta, buf, cb) {
+            console.log(buf);
+            cb({array: "got it"},function(args,bioStream){
 
             });
         });

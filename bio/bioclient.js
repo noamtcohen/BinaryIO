@@ -10,7 +10,7 @@ function Bio(url,onOpen) {
     return {
         stream: function (meta) {
             var bStream = client.createStream(meta);
-            return new BioStream(bStream)
+            return new BioStream(bStream,{packetSize:10})
         }
     }
 }
