@@ -3,17 +3,19 @@ BinaryJS with callbacks
 
 Client:
 ```javascript
-var bio = Bio("ws://localhost:9009", function () {
+var bio = new Bio("ws://localhost:9009",{packetSize:10});
+
+bio.on("open", function () {
     var ab = new ArrayBuffer(2);
     var uint8 = new Uint8Array(ab);
     uint8[0] = 10;
     uint8[1] = 11;
 
     var f64 = new Float64Array(7);
-    f64[0] = 12;
-    f64[6] = 100;
+    f64[0] = 12.15;
+    f64[6] = 0.100;
 
-    var stream = bio.stream({something: 123});
+    var stream = bio.createStream({something: 123});
 
     stream.call("Hi",{m:"hi",x: 1},uint8,function (args,bioS) {
         console.log(args);
@@ -38,7 +40,7 @@ Server:
 ```javascript
 var bio = require("./bioserver.js").Bio;
 
-var server = new bio(9009);
+var server = new bio({port:9009,packetSize:10});
 
 server.on("connection", function (client) {
     client.on("stream",function(stream){

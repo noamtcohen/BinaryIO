@@ -2,17 +2,20 @@
  * Created by noamc on 11/22/15.
  */
 
-function Bio(url,onOpen) {
+function Bio(url,opt,onOpen) {
+    BasicEmitter(this,Bio);
+
     var client = new BinaryClient(url);
 
-    client.on("open",onOpen);
+    var that = this;
+    client.on("open",function(){
+        that.trigger("open");
+    });
 
-    return {
-        stream: function (meta) {
-            var bStream = client.createStream(meta);
-            return new BioStream(bStream,{packetSize:10})
-        }
-    }
+    this.createStream=function(meta) {
+        var bStream = client.createStream(meta);
+        return new BioStream(bStream,opt)
+    };
 }
 
 Bio.toTypeArray = function(data,type,onConverted){

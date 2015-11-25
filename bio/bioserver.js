@@ -9,24 +9,24 @@ var binaryServer = require('binaryjs').BinaryServer;
 
 exports.Bio = Bio;
 
-function Bio(port) {
+function Bio(opt) {
     EventEmitter.call(this);
 
     var _this = this;
-    var server = binaryServer({port: port});
+    var server = binaryServer({port: opt.port});
 
     server.on('connection', function (client) {
-        var bioConnection = new BioConnection(client);
+        var bioConnection = new BioConnection(client,{packetSize:opt.packetSize});
         _this.emit("connection",bioConnection);
     });
 }
 
-function BioConnection(client){
+function BioConnection(client,opt){
     EventEmitter.call(this);
 
     var _this = this;
     client.on('stream', function (stream, meta) {
-        var bioS = new BioStream(stream,{packetSize:10});
+        var bioS = new BioStream(stream,opt);
         _this.emit("stream",bioS);
     });
 }

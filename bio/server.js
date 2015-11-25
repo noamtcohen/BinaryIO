@@ -4,7 +4,7 @@
 
 var bio = require("./bioserver.js").Bio;
 
-var server = new bio(9009);
+var server = new bio({port:9009,packetSize:10});
 
 server.on("connection", function (client) {
     client.on("stream",function(stream){

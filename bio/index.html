@@ -13,17 +13,19 @@
     <script src="bioclient.js"></script>
     <script src="biolib.js"></script>
     <script>
-        var bio = Bio("ws://localhost:9009", function () {
+        var bio = new Bio("ws://localhost:9009",{packetSize:10});
+
+        bio.on("open", function () {
             var ab = new ArrayBuffer(2);
             var uint8 = new Uint8Array(ab);
             uint8[0] = 10;
             uint8[1] = 11;
 
             var f64 = new Float64Array(7);
-            f64[0] = 12;
-            f64[6] = 100;
+            f64[0] = 12.15;
+            f64[6] = 0.100;
 
-            var stream = bio.stream({something: 123});
+            var stream = bio.createStream({something: 123});
 
             stream.call("Hi",{m:"hi",x: 1},uint8,function (args,bioS) {
                 console.log(args);
