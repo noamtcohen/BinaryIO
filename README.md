@@ -30,7 +30,7 @@ bio.on("open", function () {
         console.log(args);
     });
 
-    stream.call("string array",{},[1.2,2.10,3.12,"a","b","c"],function (args,bioS) {
+    stream.call("mixed array",{},[17,true,3.12,"a","b","c",{i:"a",j:10}],function (args,bioS) {
         console.log(args);
     });
 });
@@ -62,7 +62,8 @@ server.on("connection", function (client) {
 
             });
         });
-        stream.on("string array", function (meta, buf, cb) {
+
+        stream.on("mixed array", function (meta, buf, cb) {
             console.log(buf);
             cb({array: "got it"},function(args,bioStream){
 

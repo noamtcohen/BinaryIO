@@ -26,7 +26,8 @@ server.on("connection", function (client) {
 
             });
         });
-        stream.on("string array", function (meta, buf, cb) {
+
+        stream.on("mixed array", function (meta, buf, cb) {
             console.log(buf);
             cb({array: "got it"},function(args,bioStream){
 

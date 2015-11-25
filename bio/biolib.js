@@ -24,10 +24,16 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
 
         this.call = function (event, meta, data, cb) {
             function pack(data, head, cb) {
-                if(!data.buffer && !(data instanceof Array))
-                    throw "Please send TypedArray or Array";
+                if(!knownType(data))
+                    throw "Please convert your Blob/ArrayBuffer/Buffer to a TypedArray/Array";
 
-                var arrToSend =(data instanceof Array)?data:Array.prototype.slice.call(data);
+                var arrToSend;
+                if(data instanceof Array)
+                    arrToSend = data;
+                else if(data.buffer)
+                    arrToSend = Array.prototype.slice.call(data);
+                else
+                    arrToSend =[data];
 
                 head.l = arrToSend.length;
                 var header = toByteArray(JSON.stringify(head));
@@ -44,6 +50,17 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
 
                     return bytes;
                 }
+            }
+
+            function knownType(data){
+                if(data instanceof ArrayBuffer)
+                    return false;
+                if(typeof Blob !== 'undefined' && data instanceof Blob)
+                    return false;
+                if(typeof Buffer !== 'undefined' && data instanceof Buffer)
+                    return false;
+
+                return true;
             }
 
             function getNextReqId(){
