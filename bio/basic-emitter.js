@@ -13,7 +13,7 @@
 
             if(!target._listeners[e])
                 target._listeners[e] = [];
-            target._listeners[e].unshift({fun:cb});
+            target._listeners[e].push({fun:cb});
         }
 
         target.trigger=function(){
