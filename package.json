@@ -4,11 +4,15 @@
   "description": "BinaryJS with callbacks",
   "main": "bio/server.js",
   "dependencies": {
-    "binaryjs": "^0.2.1"
+    "binaryjs": "^0.2.1",
+    "connect": "^3.4.0",
+    "opener": "^1.4.1",
+    "serve-static": "^1.10.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bio/server.js"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,14 @@
  * Created by noamc on 11/22/15.
  */
 
-var bio = require("./bioserver.js").Bio;
+var bio = require("./bioserver.js").Bio,
+    connect = require('connect')(),
+    serveStatic = require('serve-static'),
+    opener = require("opener");
+
+connect.use(serveStatic('./bio')).listen(9090);
+opener("http://localhost:9090");
+
 
 var server = new bio({port:9009,packetSize:10});
 

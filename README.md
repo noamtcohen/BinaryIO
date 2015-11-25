@@ -1,6 +1,11 @@
 # BinaryIO
 BinaryJS with callbacks 
 
+```
+npm install
+npm start
+```
+
 Client:
 ```javascript
 var bio = new Bio("ws://localhost:9009",{packetSize:10});
