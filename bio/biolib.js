@@ -17,7 +17,7 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
         var bioPack = new BioPacket(bStream);
         bioPack.on("packet",function(head,data){
             var id=head.id;
-            that.trigger(head.e,head.m,data,function(arg, cb){
+            that.emit(head.e,head.m,data,function(arg, cb){
                 that.call("@callback?",{id:id,data:arg,e:head.e},new Uint8Array(0),cb);
             });
         });
@@ -131,7 +131,7 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
             }
 
             if (head && tmp.length > (headerLen + head.l)) {
-                that.trigger("packet",head,tmp.slice(headerLen+1,headerLen + head.l+1));
+                that.emit("packet",head,tmp.slice(headerLen+1,headerLen + head.l+1));
                 tmp = null;
                 head = null;
                 headerLen=0;

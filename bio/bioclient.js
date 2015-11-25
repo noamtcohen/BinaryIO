@@ -9,7 +9,7 @@ function Bio(url,opt,onOpen) {
 
     var that = this;
     client.on("open",function(){
-        that.trigger("open");
+        that.emit("open");
     });
 
     this.createStream=function(meta) {
