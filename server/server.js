@@ -7,7 +7,8 @@ var bio = require("./bioserver.js").Bio,
     serveStatic = require('serve-static'),
     opener = require("opener");
 
-connect.use(serveStatic('./bio')).listen(9090);
+connect.use(serveStatic('./shared'))
+connect.use(serveStatic('./public')).listen(9090);
 opener("http://localhost:9090");
 
 

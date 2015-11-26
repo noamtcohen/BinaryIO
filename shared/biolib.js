@@ -2,9 +2,11 @@
  * Created by noamc on 11/23/15.
  */
 
-var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
 
-(function(exports){
+
+(function(exports,require){
+    var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
+
     var _reqIds = {};
 
     exports.BioStream = BioStream;
@@ -139,4 +141,5 @@ var BasicEmitter = require("./basic-emitter.js").BasicEmitter;
         })
     }
 
-})(exports||window);
+})((typeof exports!=="undefined")?exports:window,
+    (typeof require!=="undefined")?require:function(module){return window});

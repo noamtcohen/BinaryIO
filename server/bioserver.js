@@ -4,7 +4,7 @@
 
 const util = require('util');
 const EventEmitter = require('events');
-var BioStream = require("./biolib.js").BioStream;
+var BioStream = require("../shared/biolib.js").BioStream;
 var binaryServer = require('binaryjs').BinaryServer;
 
 exports.Bio = Bio;
